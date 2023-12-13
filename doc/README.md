@@ -92,7 +92,8 @@ Message
 
 ### Test Coverage
 
-http://127.0.0.1:5500/staff/ivan-canuto/fullstack/project/api/coverage/lcov-report/index.html
+<img src="./images/test-studysnap-1.PNG" alt="StudySnap1" width="600"/>
+<img src="./images/test-studysnap-2.PNG" alt="StudySnap2" width="600"/>
 
 ### Planning
 

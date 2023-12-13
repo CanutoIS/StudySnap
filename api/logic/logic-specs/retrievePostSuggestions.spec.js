@@ -35,7 +35,7 @@ describe('retrievePostSuggestions', () => {
             const postTitle = 'Lo que el viento se llevó.'
             const postText = 'Lo que el viento se llevó es una película muy famosa del siglo XX y que tuvo mucho éxito en taquilla.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText})
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
 
             const post = await Post.findOne({ author: userId })
             const postId = post._id.toString()
@@ -84,7 +84,7 @@ describe('retrievePostSuggestions', () => {
             const postTitle = 'Lo que el viento se llevó.'
             const postText = 'Lo que el viento se llevó es una película muy famosa del siglo XX y que tuvo mucho éxito en taquilla.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText})
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
 
             const post = await Post.findOne({ author: userId })
             const postId = post._id.toString()
@@ -116,7 +116,7 @@ describe('retrievePostSuggestions', () => {
             const postTitle = 'Lo que el viento se llevó.'
             const postText = 'Lo que el viento se llevó es una película muy famosa del siglo XX y que tuvo mucho éxito en taquilla.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText})
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
 
             const post = await Post.findOne({ author: userId })
             const postId = post._id.toString()

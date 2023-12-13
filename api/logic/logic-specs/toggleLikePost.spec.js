@@ -34,7 +34,7 @@ describe('toggleLikePost', () => {
             const postTitle = 'Test Conversation'
             const postText = 'Juan Carlos I de Borbon, es el padre del actual rey de la monarquía española, Felipe IV. Juan Carlos también fue rey de España hasta que en 2014 abdicó cediendole el trono a su hijo Felipe.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
 
             const post = await Post.findOne({ author: new ObjectId(userId) })
             const postId = post._id.toString()
@@ -62,7 +62,7 @@ describe('toggleLikePost', () => {
             const postTitle = 'Test Conversation'
             const postText = 'Juan Carlos I de Borbon, es el padre del actual rey de la monarquía española, Felipe IV. Juan Carlos también fue rey de España hasta que en 2014 abdicó cediendole el trono a su hijo Felipe.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, likes: [new ObjectId(userId)] })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, likes: [new ObjectId(userId)], subject: 'Others' })
 
             const post = await Post.findOne({ author: new ObjectId(userId) })
             const postId = post._id.toString()
@@ -92,7 +92,7 @@ describe('toggleLikePost', () => {
             const postTitle = 'Test Conversation'
             const postText = 'Juan Carlos I de Borbon, es el padre del actual rey de la monarquía española, Felipe IV. Juan Carlos también fue rey de España hasta que en 2014 abdicó cediendole el trono a su hijo Felipe.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
 
             const post = await Post.findOne({ author: new ObjectId(userId) })
             const postId = post._id.toString()
@@ -115,7 +115,7 @@ describe('toggleLikePost', () => {
             const postTitle = 'Test Conversation'
             const postText = 'Juan Carlos I de Borbon, es el padre del actual rey de la monarquía española, Felipe IV. Juan Carlos también fue rey de España hasta que en 2014 abdicó cediendole el trono a su hijo Felipe.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
 
             const wrongPostId = '6102a3cbf245ef001c9a1837'
 

@@ -27,7 +27,7 @@ const {
       
       const profileUser = await User.findById(requestedUserId).lean()
       if(!profileUser) throw new ExistenceError('The requested user is not found.')
-  
+      
       profileUser.id = profileUser._id.toString()
       delete profileUser._id
   

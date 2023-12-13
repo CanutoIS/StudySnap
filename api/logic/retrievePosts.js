@@ -1,5 +1,5 @@
 const {
-  validators: { validateId, validateText },
+  validators: { validateId, validateSubject },
   errors: { ExistenceError }
 } = require('com')
 const { User, Post } = require('../data/models')
@@ -19,18 +19,26 @@ const { User, Post } = require('../data/models')
 
 module.exports = (userId, postSubject) => {
   validateId(userId, 'user id')
-  validateText(postSubject, 'subject')
+  if(postSubject !== 'Show all posts') validateSubject(postSubject, 'subject')
 
   return (async () => {
     const user = await User.findById(userId)
     if(!user) throw new ExistenceError('User not found.')
 
     let posts
+
+    console.log(postSubject)
     
-    if(postSubject === 'Show all posts')
+    if(postSubject === 'Show all posts') {
       posts = await Post.find().populate('author', 'name avatar').lean()
-    else
+
+      if(!posts) throw new Error('There must be an error.')
+    }
+    else {
       posts = await Post.find({ subject: postSubject }).populate('author', 'name avatar').lean()
+
+      if(!posts) throw new Error('There must be an error.')
+    }
 
     posts.forEach(post => {
       post.id = post._id.toString()

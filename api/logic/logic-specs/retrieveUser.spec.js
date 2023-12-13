@@ -6,7 +6,6 @@ const { cleanUp, generate, populate } = require('../helpers-test')
 const mongoose = require('mongoose')
 const { errors: { ExistenceError, ContentError } } = require('com')
 const { User } = require('../../data/models')
-const { mongoose: { Types: { ObjectId } } } = require('mongoose')
 
 describe('retrieveUser', () => {
     let user, name, email

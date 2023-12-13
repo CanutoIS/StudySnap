@@ -26,7 +26,7 @@ describe('retrieveRequestedUserPosts', () => {
         }
     })
 
-    it('succeeds on retrieve the requested user posts data', async () => {
+    it('succeeds on retrieve the requested user posts', async () => {
         try {
             const _user = generate.user()
             await User.create(_user)
@@ -53,6 +53,10 @@ describe('retrieveRequestedUserPosts', () => {
             expect(posts).to.be.an('array')
             expect(posts).to.have.lengthOf(1)
             expect(posts[0]._id.toString()).to.equal(postId)
+            expect(posts[0].id).to.exist
+            expect(posts[0].liked).to.be.a('boolean')
+            expect(posts[0].fav).to.be.a('boolean')
+            expect(posts[0].author.if).to.equal(userId)
         } catch (error) {
             
         }
@@ -63,11 +67,11 @@ describe('retrieveRequestedUserPosts', () => {
             const wrongUserId = '6102a3cbf245ef001c9a1837'
             const testRequestedUserId = '6102a3cbf245ef001c9a1837'
 
-            const _user2 = await retrieveRequestedUser(wrongUserId, testRequestedUserId)
+            const _user2 = await retrieveRequestedUserPosts(wrongUserId, testRequestedUserId)
 
         } catch (error) {
             expect(error).to.be.instanceOf(ExistenceError)
-            expect(error.message).to.equal('The user is not found.')
+            expect(error.message).to.equal('User not found.')
         }
     })
 

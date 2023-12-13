@@ -38,8 +38,8 @@ describe('retrieveSearchedPosts', () => {
             const postTitle2 = 'Felipe VI, rey de España'
             const postText2 = 'Felipe VI es el actual rey de España, perteneciente a la dinastía de los Borbones, hijo de Juan Carlos I, quien abdicó en 2014 para cederle el trono a él.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText })
-            await Post.create({ author: new ObjectId(userId), title: postTitle2, text: postText2 })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
+            await Post.create({ author: new ObjectId(userId), title: postTitle2, text: postText2, subject: 'Others' })
 
             const post = await Post.findOne({ author: userId })
 
@@ -51,7 +51,7 @@ describe('retrieveSearchedPosts', () => {
 
             const textToSearch = 'Rey'
 
-            const postsFound = await retrieveSearchedPosts(userId, textToSearch)
+            const postsFound = await retrieveSearchedPosts(userId, 'Show all posts', textToSearch)
 
             expect(postsFound).to.exist
             expect(postsFound).to.be.an('array')
@@ -88,6 +88,38 @@ describe('retrieveSearchedPosts', () => {
             
         }
     })
+    
+    it('succeeds on rtrieving searched posts from a specific subject', async () => {
+        try {
+            const _user = await User.findOne({ email: user.email })
+            const userId = _user._id.toString()
+
+            const postTitle = 'Juan Carlos I, antiguo rey'
+            const postText = 'Juan Carlos I de Borbon, es el padre del actual rey de la monarquía española, Felipe IV. Juan Carlos también fue rey de España hasta que en 2014 abdicó cediendole el trono a su hijo Felipe.'
+
+            const postTitle2 = 'Felipe VI, rey de España'
+            const postText2 = 'Felipe VI es el actual jefe de estado de España, perteneciente a la dinastía de los Borbones, hijo de Juan Carlos I, quien abdicó en 2014 para cederle el trono a él.'
+            
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'History' })
+            await Post.create({ author: new ObjectId(userId), title: postTitle2, text: postText2, subject: 'History' })
+
+            const textToSearch = 'Rey'
+
+            const postsFound = await retrieveSearchedPosts(userId, 'History', textToSearch)
+
+            expect(postsFound).to.exist
+            expect(postsFound).to.be.an('array')
+            expect(postsFound).to.have.lengthOf(1)
+
+            expect(postsFound[0].author.id).to.equal(userId)
+            expect(postsFound[0].author.name).to.equal(name)
+            expect(postsFound[0].subject).to.equal('History')
+            expect(postsFound[0].text).to.include('rey')
+
+        } catch (error) {
+            
+        }
+    })
 
     it('fails on non-existing user', async () => {
         try {
@@ -100,14 +132,15 @@ describe('retrieveSearchedPosts', () => {
             const postTitle2 = 'Felipe VI, rey de España'
             const postText2 = 'Felipe VI es el actual rey de España, perteneciente a la dinastía de los Borbones, hijo de Juan Carlos I, quien abdicó en 2014 para cederle el trono a él.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText })
-            await Post.create({ author: new ObjectId(userId), title: postTitle2, text: postText2 })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
+            await Post.create({ author: new ObjectId(userId), title: postTitle2, text: postText2, subject: 'Others' })
 
             const textToSearch = 'Rey'
+            const postSubject = 'Others'
 
             const wrongUserId = '6102a3cbf245ef001c9a1837'
 
-            await retrieveSearchedPosts(wrongUserId, textToSearch)
+            await retrieveSearchedPosts(wrongUserId, postSubject, textToSearch)
 
         } catch (error) {
             expect(error).to.be.instanceOf(ExistenceError)
@@ -115,28 +148,42 @@ describe('retrieveSearchedPosts', () => {
         }
     })
 
-    it('fails on empty user id', () => expect(() => retrieveSearchedPosts('', 'testText')).to.throw(ContentError, 'The user id does not have 24 characters.'))
+    it('fails on empty user id', () => expect(() => retrieveSearchedPosts('', 'Others', 'testText')).to.throw(ContentError, 'The user id does not have 24 characters.'))
 
     it('fails on a non-string user id', () => {
-        expect(() => retrieveSearchedPosts(true, 'testText')).to.throw(TypeError, 'The user id is not a string.')
-        expect(() => retrieveSearchedPosts([], 'testText')).to.throw(TypeError, 'The user id is not a string.')
-        expect(() => retrieveSearchedPosts({}, 'testText')).to.throw(TypeError, 'The user id is not a string.')
-        expect(() => retrieveSearchedPosts(undefined, 'testText')).to.throw(TypeError, 'The user id is not a string.')
-        expect(() => retrieveSearchedPosts(1, 'testText')).to.throw(TypeError, 'The user id is not a string.')
+        expect(() => retrieveSearchedPosts(true, 'Others', 'testText')).to.throw(TypeError, 'The user id is not a string.')
+        expect(() => retrieveSearchedPosts([], 'Others', 'testText')).to.throw(TypeError, 'The user id is not a string.')
+        expect(() => retrieveSearchedPosts({}, 'Others', 'testText')).to.throw(TypeError, 'The user id is not a string.')
+        expect(() => retrieveSearchedPosts(undefined, 'Others', 'testText')).to.throw(TypeError, 'The user id is not a string.')
+        expect(() => retrieveSearchedPosts(1, 'Others', 'testText')).to.throw(TypeError, 'The user id is not a string.')
     })
 
-    it('fails on not hexadecimal user id', () => expect(() => retrieveSearchedPosts('-102a3cbf245ef001c9a1837', 'testText')).to.throw(ContentError, 'The user id is not hexadecimal.'))
+    it('fails on not hexadecimal user id', () => expect(() => retrieveSearchedPosts('-102a3cbf245ef001c9a1837', 'Others', 'testText')).to.throw(ContentError, 'The user id is not hexadecimal.'))
 
-    it('fails on empty text to search', () => expect(() => retrieveSearchedPosts('6102a3cbf245ef001c9a1837', '')).to.throw(ContentError, 'The text to search field is empty.'))
+    it('fails on empty post subject', () => expect(() => retrieveSearchedPosts('6102a3cbf245ef001c9a1837', '', 'testText')).to.throw(ContentError, 'The subject field is empty.'))
+
+    it('fails on a non-string post subject', () => {
+        const testUserId = '6102a3cbf245ef001c9a1837'
+
+        expect(() => retrieveSearchedPosts(testUserId, true, 'testText')).to.throw(TypeError, 'The subject is not a string.')
+        expect(() => retrieveSearchedPosts(testUserId, [], 'testText')).to.throw(TypeError, 'The subject is not a string.')
+        expect(() => retrieveSearchedPosts(testUserId, {}, 'testText')).to.throw(TypeError, 'The subject is not a string.')
+        expect(() => retrieveSearchedPosts(testUserId, undefined, 'testText')).to.throw(TypeError, 'The subject is not a string.')
+        expect(() => retrieveSearchedPosts(testUserId, 1, 'testText')).to.throw(TypeError, 'The subject is not a string.')
+    })
+
+    it('fails on invalid post subject', () => expect(() => retrieveSearchedPosts('6102a3cbf245ef001c9a1837', 'physical education', 'testText')).to.throw(ContentError, 'The subject is not valid'))
+
+    it('fails on empty text to search', () => expect(() => retrieveSearchedPosts('6102a3cbf245ef001c9a1837', 'Others', '')).to.throw(ContentError, 'The text to search field is empty.'))
 
     it('fails on a non-string text to search', () => {
         const testUserId = '6102a3cbf245ef001c9a1837'
 
-        expect(() => retrieveSearchedPosts(testUserId, true)).to.throw(TypeError, 'The text to search is not a string.')
-        expect(() => retrieveSearchedPosts(testUserId, [])).to.throw(TypeError, 'The text to search is not a string.')
-        expect(() => retrieveSearchedPosts(testUserId, {})).to.throw(TypeError, 'The text to search is not a string.')
-        expect(() => retrieveSearchedPosts(testUserId, undefined)).to.throw(TypeError, 'The text to search is not a string.')
-        expect(() => retrieveSearchedPosts(testUserId, 1)).to.throw(TypeError, 'The text to search is not a string.')
+        expect(() => retrieveSearchedPosts(testUserId, 'Others', true)).to.throw(TypeError, 'The text to search is not a string.')
+        expect(() => retrieveSearchedPosts(testUserId, 'Others', [])).to.throw(TypeError, 'The text to search is not a string.')
+        expect(() => retrieveSearchedPosts(testUserId, 'Others', {})).to.throw(TypeError, 'The text to search is not a string.')
+        expect(() => retrieveSearchedPosts(testUserId, 'Others', undefined)).to.throw(TypeError, 'The text to search is not a string.')
+        expect(() => retrieveSearchedPosts(testUserId, 'Others', 1)).to.throw(TypeError, 'The text to search is not a string.')
     })
 
     after(async () => await mongoose.disconnect())

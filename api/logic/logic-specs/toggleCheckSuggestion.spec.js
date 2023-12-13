@@ -34,7 +34,7 @@ describe('toggleCheckSuggestion', () => {
             const postTitle = 'Test Conversation'
             const postText = 'Juan Carlos I de Borbon, es el padre del actual rey de la monarquía española, Felipe IV. Juan Carlos también fue rey de España hasta que en 2014 abdicó cediendole el trono a su hijo Felipe.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
 
             const post = await Post.findOne({ author: new ObjectId(userId) })
             const postId = post._id
@@ -55,7 +55,6 @@ describe('toggleCheckSuggestion', () => {
             expect(_suggestion).to.be.an('object')
             expect(_suggestion.id).to.equal(suggestionId)
             expect(_suggestion.checked).to.be.true
-
         } catch (error) {
             
         }
@@ -69,7 +68,7 @@ describe('toggleCheckSuggestion', () => {
             const postTitle = 'Test Conversation'
             const postText = 'Juan Carlos I de Borbon, es el padre del actual rey de la monarquía española, Felipe IV. Juan Carlos también fue rey de España hasta que en 2014 abdicó cediendole el trono a su hijo Felipe.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
 
             const post = await Post.findOne({ author: new ObjectId(userId) })
             const postId = post._id
@@ -90,7 +89,6 @@ describe('toggleCheckSuggestion', () => {
             expect(_suggestion).to.be.an('object')
             expect(_suggestion.id).to.equal(suggestionId)
             expect(_suggestion.checked).to.be.false
-
         } catch (error) {
             
         }
@@ -104,7 +102,7 @@ describe('toggleCheckSuggestion', () => {
             const postTitle = 'Test Conversation'
             const postText = 'Juan Carlos I de Borbon, es el padre del actual rey de la monarquía española, Felipe IV. Juan Carlos también fue rey de España hasta que en 2014 abdicó cediendole el trono a su hijo Felipe.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
 
             const post = await Post.findOne({ author: new ObjectId(userId) })
             const postId = post._id
@@ -120,7 +118,6 @@ describe('toggleCheckSuggestion', () => {
             const wrongUserId = '6102a3cbf245ef001c9a1837'
             
             await toggleCheckSuggestion(wrongUserId, suggestionId)
-
         } catch (error) {
             expect(error).to.be.instanceOf(ExistenceError)
             expect(error.message).to.equal('User not found.')
@@ -135,7 +132,7 @@ describe('toggleCheckSuggestion', () => {
             const postTitle = 'Test suggestion'
             const postText = 'Juan Carlos I de Borbon, es el padre del actual rey de la monarquía española, Felipe IV. Juan Carlos también fue rey de España hasta que en 2014 abdicó cediendole el trono a su hijo Felipe.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
 
             const post = await Post.findOne({ author: new ObjectId(userId) })
             const postId = post._id
@@ -148,7 +145,6 @@ describe('toggleCheckSuggestion', () => {
             const wrongSuggestionId = '6102a3cbf245ef001c9a1837'
 
             await toggleCheckSuggestion(userId, wrongSuggestionId)
-
         } catch (error) {
             expect(error).to.be.instanceOf(ExistenceError)
             expect(error.message).to.equal('Suggestion not found.')

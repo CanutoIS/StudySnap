@@ -23,7 +23,7 @@ module.exports = function retrieveUserPosts(userId, requestedUserId) {
     if(!user) throw new ExistenceError('User not found.')
 
     const posts = await Post.find({ author: requestedUserId }).populate('author', '-favs -__v').lean()
-
+    
     posts.forEach(post => {
       post.id = post._id.toString()
       delete post._id

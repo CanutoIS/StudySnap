@@ -38,8 +38,8 @@ describe('retrieveSeenPosts', () => {
             const postTitle2 = 'Felipe VI, rey de España'
             const postText2 = 'Felipe VI es el actual rey de España, perteneciente a la dinastía de los Borbones, hijo de Juan Carlos I, quien abdicó en 2014 para cederle el trono a él.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText })
-            await Post.create({ author: new ObjectId(userId), title: postTitle2, text: postText2 })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
+            await Post.create({ author: new ObjectId(userId), title: postTitle2, text: postText2, subject: 'Others' })
 
             const posts = await Post.find()
 
@@ -91,15 +91,14 @@ describe('retrieveSeenPosts', () => {
             const postTitle2 = 'Felipe VI, rey de España'
             const postText2 = 'Felipe VI es el actual rey de España, perteneciente a la dinastía de los Borbones, hijo de Juan Carlos I, quien abdicó en 2014 para cederle el trono a él.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText })
-            await Post.create({ author: new ObjectId(userId), title: postTitle2, text: postText2 })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
+            await Post.create({ author: new ObjectId(userId), title: postTitle2, text: postText2, subject: 'Others' })
 
             const wrongUserId = '6102a3cbf245ef001c9a1837'
 
             await retrieveSeenPosts(wrongUserId)
 
         } catch (error) {
-            console.log(error)
             expect(error).to.be.instanceOf(ExistenceError)
             expect(error.message).to.equal('User not found.')
         }

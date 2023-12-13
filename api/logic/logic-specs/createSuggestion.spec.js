@@ -32,7 +32,7 @@ describe('createSuggestion', () => {
             const _user = await User.findOne({ email: user.email })
             const userId = _user._id.toString()
             
-            await Post.create({ author: new ObjectId(userId), title: 'Lo que el viento se llevo', text: 'Lo que el viento se llevó es una película muy famosa del siglo XX y que tuvo mucho éxito en taquilla.'})
+            await Post.create({ author: new ObjectId(userId), title: 'Lo que el viento se llevo', text: 'Lo que el viento se llevó es una película muy famosa del siglo XX y que tuvo mucho éxito en taquilla.', subject: 'Others'})
 
             const post = await Post.findOne({ author: userId })
             const postId = post._id.toString()
@@ -58,7 +58,7 @@ describe('createSuggestion', () => {
             const _user = await User.findOne({ email: user.email })
             const userId = _user._id.toString()
             
-            await Post.create({ author: new ObjectId(userId), title: 'Lo que el viento se llevo', text: 'Lo que el viento se llevó es una película muy famosa del siglo XX y que tuvo mucho éxito en taquilla.'})
+            await Post.create({ author: new ObjectId(userId), title: 'Lo que el viento se llevo', text: 'Lo que el viento se llevó es una película muy famosa del siglo XX y que tuvo mucho éxito en taquilla.', subject: 'Others'})
 
             const post = await Post.findOne({ author: userId })
             const postId = post._id.toString()
@@ -81,7 +81,7 @@ describe('createSuggestion', () => {
             const _user = await User.findOne({ email: user.email })
             const userId = _user._id.toString()
             
-            await Post.create({ author: new ObjectId(userId), title: 'Lo que el viento se llevo', text: 'Lo que el viento se llevó es una película muy famosa del siglo XX y que tuvo mucho éxito en taquilla.'})
+            await Post.create({ author: new ObjectId(userId), title: 'Lo que el viento se llevo', text: 'Lo que el viento se llevó es una película muy famosa del siglo XX y que tuvo mucho éxito en taquilla.', subject: 'Others'})
 
             const post = await Post.findOne({ author: userId })
             const postId = post._id.toString()
@@ -163,7 +163,7 @@ describe('createSuggestion', () => {
 
     it('fails on suggestion content too short', () => expect(() => createSuggestion('6102a3cbf245ef001c9a1837', '6102a3cbf245ef001c9a1837', 'Título de prueba', 'Texto de prueba muy corto.')).to.throw(ContentError, 'The suggestion content is too short.'))
     
-    it('fails on suggestion content too long', () => expect(() => createSuggestion('6102a3cbf245ef001c9a1837', '6102a3cbf245ef001c9a1837', 'Título de prueba', 'Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. ')).to.throw(ContentError, 'The suggestion content is too long.'))
+    it('fails on suggestion content too long', () => expect(() => createSuggestion('6102a3cbf245ef001c9a1837', '6102a3cbf245ef001c9a1837', 'Título de prueba', 'Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. Texto de prueba demasiado largo. ')).to.throw(ContentError, 'The suggestion content is too long.'))
 
     after(async () => await mongoose.disconnect())
 })

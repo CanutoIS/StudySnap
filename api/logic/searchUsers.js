@@ -27,11 +27,15 @@ const {
       
       const users = await User.find({ username: {$regex: textToSearch, $options: 'i'} }, 'name username _id').lean()
   
-      users.forEach(user => {
-        user.id = user._id.toString()
-        delete user._id
-      })
-  
-      return users
+      if(users === null) throw new Error('There must be an error.')
+      else {
+        if(users.length > 0 )
+          users.forEach(user => {
+            user.id = user._id.toString()
+            delete user._id
+          })
+    
+        return users
+      }
     })()
   }

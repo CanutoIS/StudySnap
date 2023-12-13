@@ -61,7 +61,7 @@ describe('createComment', () => {
             const _user = await User.findOne({ email: user.email })
             const userId = _user._id.toString()
             
-            await Post.create({ author: new ObjectId(userId), title: 'Lo que el viento se llevo', text: 'Lo que el viento se llevó es una película muy famosa del siglo XX y que tuvo mucho éxito en taquilla.'})
+            await Post.create({ author: new ObjectId(userId), title: 'Lo que el viento se llevo', text: 'Lo que el viento se llevó es una película muy famosa del siglo XX y que tuvo mucho éxito en taquilla.', subject: 'Others'})
 
             const post = await Post.findOne({ author: userId })
             const postId = post._id.toString()
@@ -83,7 +83,7 @@ describe('createComment', () => {
             const _user = await User.findOne({ email: user.email })
             const userId = _user._id.toString()
             
-            await Post.create({ author: new ObjectId(userId), title: 'Lo que el viento se llevo', text: 'Lo que el viento se llevó es una película muy famosa del siglo XX y que tuvo mucho éxito en taquilla.'})
+            await Post.create({ author: new ObjectId(userId), title: 'Lo que el viento se llevo', text: 'Lo que el viento se llevó es una película muy famosa del siglo XX y que tuvo mucho éxito en taquilla.', subject: 'Others'})
 
             const wrongPostId = '6102a3cbf245ef001c9a1837'
 

@@ -38,8 +38,8 @@ describe('retrieveUserPosts', () => {
             const postTitle2 = 'Test post title number 2'
             const postText2 = 'Felipe VI es el actual rey de España, perteneciente a la dinastía de los Borbones, hijo de Juan Carlos I, quien abdicó en 2014 para cederle el trono a él.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText })
-            await Post.create({ author: new ObjectId(userId), title: postTitle2, text: postText2 })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
+            await Post.create({ author: new ObjectId(userId), title: postTitle2, text: postText2, subject: 'Others' })
 
             const post = await Post.findOne({ author: userId })
 
@@ -95,7 +95,7 @@ describe('retrieveUserPosts', () => {
             const postTitle = 'Test post title'
             const postText = 'Juan Carlos I de Borbon, es el padre del actual rey de la monarquía española, Felipe IV. Juan Carlos también fue rey de España hasta que en 2014 abdicó cediendole el trono a su hijo Felipe.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
 
             const post = await Post.findOne({ author: userId })
             const postId = post._id.toString()

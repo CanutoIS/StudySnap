@@ -40,6 +40,8 @@ describe('retrieveRequestedUser', () => {
 
             expect(_user3).to.exist
             expect(_user3).to.be.an('object')
+            expect(_user3.id).to.equal(userId)
+            expect(_user3).to.not.have.any.keys('password', 'favs');
         } catch (error) {
             
         }
@@ -54,7 +56,7 @@ describe('retrieveRequestedUser', () => {
 
         } catch (error) {
             expect(error).to.be.instanceOf(ExistenceError)
-            expect(error.message).to.equal('The user is not found.')
+            expect(error.message).to.equal('User not found.')
         }
     })
 

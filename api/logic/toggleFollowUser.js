@@ -9,7 +9,7 @@ const { User } = require('../data/models')
  * Sets and unsets an app user as 'following' by the current user
  * 
  * @param {string} userId The user id
- * @param {string} profileUserId The profile user id
+ * @param {string} profileUserId The user to follow id
  * 
  * @returns {Promise} A Promise that resolves when a user id followed/unfollowed successfully, or rejects with an error message if the operation fails
  * 
@@ -20,7 +20,7 @@ const { User } = require('../data/models')
 
 module.exports = (userId, profileUserId) => {
   validateId(userId, 'user id')
-  validateId(profileUserId, 'profile user id')
+  validateId(profileUserId, 'user to follow id')
 
   return (async () => {
     const user = await User.findById(userId)

@@ -34,7 +34,7 @@ describe('updateSuggestion', () => {
             const postTitle = 'Test Conversation'
             const postText = 'Juan Carlos I de Borbon, es el padre del actual rey de la monarquía española, Felipe IV. Juan Carlos también fue rey de España hasta que en 2014 abdicó cediendole el trono a su hijo Felipe.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
 
             const post = await Post.findOne({ author: new ObjectId(userId) })
             const postId = post._id
@@ -69,7 +69,7 @@ describe('updateSuggestion', () => {
             const postTitle = 'Test Conversation'
             const postText = 'Juan Carlos I de Borbon, es el padre del actual rey de la monarquía española, Felipe IV. Juan Carlos también fue rey de España hasta que en 2014 abdicó cediendole el trono a su hijo Felipe.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
 
             const post = await Post.findOne({ author: new ObjectId(userId) })
             const postId = post._id
@@ -100,7 +100,7 @@ describe('updateSuggestion', () => {
             const postTitle = 'Test Conversation'
             const postText = 'Juan Carlos I de Borbon, es el padre del actual rey de la monarquía española, Felipe IV. Juan Carlos también fue rey de España hasta que en 2014 abdicó cediendole el trono a su hijo Felipe.'
             
-            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText })
+            await Post.create({ author: new ObjectId(userId), title: postTitle, text: postText, subject: 'Others' })
 
             const post = await Post.findOne({ author: new ObjectId(userId) })
             const postId = post._id
@@ -168,7 +168,7 @@ describe('updateSuggestion', () => {
         expect(() => updateSuggestion(testUserId, testSuggestionId, 1, testSuugestionText)).to.throw(TypeError, 'The suggestion title is not a string.')
     })
 
-    it('fails on suggestion title too long', () => expect(() => updateSuggestion('6102a3cbf245ef001c9a1837', '6102a3cbf245ef001c9a1837', 'This is the new beautiful title of the suggestion.', 'This is the new content of the suggestion. This is the new content of the suggestion. ')).to.throw(ContentError, 'The suggestion title is too long.'))
+    it('fails on too long suggestion title', () => expect(() => updateSuggestion('6102a3cbf245ef001c9a1837', '6102a3cbf245ef001c9a1837', 'This is the new beautiful title of the suggestion.', 'This is the new content of the suggestion. This is the new content of the suggestion. ')).to.throw(ContentError, 'The suggestion title is too long.'))
     
     it('fails on empty suggestion content', () => expect(() => updateSuggestion('6102a3cbf245ef001c9a1837', '6102a3cbf245ef001c9a1837', 'New suggestion title', '')).to.throw(ContentError, 'The suggestion content field is empty.'))
 
@@ -184,9 +184,9 @@ describe('updateSuggestion', () => {
         expect(() => updateSuggestion(testUserId, testSuggestionId, testSuggestionTitle, 1)).to.throw(TypeError, 'The suggestion content is not a string.')
     })
 
-    it('fails on suggestion content too short', () => expect(() => updateSuggestion('6102a3cbf245ef001c9a1837', '6102a3cbf245ef001c9a1837', 'New suggestion title', 'The new suggestion content.')).to.throw(ContentError, 'The suggestion content is too short.'))
+    it('fails on too short suggestion content', () => expect(() => updateSuggestion('6102a3cbf245ef001c9a1837', '6102a3cbf245ef001c9a1837', 'New suggestion title', 'The new suggestion content.')).to.throw(ContentError, 'The suggestion content is too short.'))
 
-    it('fails on suggestion content too short', () => expect(() => updateSuggestion('6102a3cbf245ef001c9a1837', '6102a3cbf245ef001c9a1837', 'New suggestion title', 'This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. ')).to.throw(ContentError, 'The suggestion content is too long.'))
+    it('fails on suggestion content too long', () => expect(() => updateSuggestion('6102a3cbf245ef001c9a1837', '6102a3cbf245ef001c9a1837', 'New suggestion title', 'This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion. This is the new content of the suggestion.')).to.throw(ContentError, 'The suggestion content is too long.'))
 
 
     after(async () => await mongoose.disconnect())

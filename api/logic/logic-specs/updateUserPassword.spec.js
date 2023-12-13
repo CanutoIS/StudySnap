@@ -150,7 +150,7 @@ describe('updateUserPassword', () => {
 
     it('fails on not hexadecimal user id', () => expect(() => updateUserPassword('-102a3cbf245ef001c9a1837', 'this-is-the-new-avatar-url.jpg', '123123123')).to.throw(ContentError, 'The user id is not hexadecimal.'))
 
-    it('fails on password length lower than 6 characters', () => expect(() => updateUserPassword('6102a3cbf245ef001c9a1837', '123', '123123123', '123123123')).to.throw(RangeError, 'The password is lower than 6 characters.'))
+    it('fails on user password length lower than 6 characters', () => expect(() => updateUserPassword('6102a3cbf245ef001c9a1837', '123', '123123123', '123123123')).to.throw(RangeError, 'The password is lower than 6 characters.'))
 
     it('fails on a non-string user password', () => {
         const testUserId = '6102a3cbf245ef001c9a1837'
@@ -163,7 +163,7 @@ describe('updateUserPassword', () => {
         expect(() => updateUserPassword(testUserId, 1, testNewPassword, testNewPassword)).to.throw(TypeError, 'The password is not a string.')
     })
 
-    it('fails on password length lower than 6 characters', () => expect(() => updateUserPassword('6102a3cbf245ef001c9a1837', '123123123', '123', '123123123')).to.throw(RangeError, 'The new password is lower than 6 characters.'))
+    it('fails on new password length lower than 6 characters', () => expect(() => updateUserPassword('6102a3cbf245ef001c9a1837', '123123123', '123', '123123123')).to.throw(RangeError, 'The new password is lower than 6 characters.'))
 
     it('fails on a non-string new password', () => {
         const testUserId = '6102a3cbf245ef001c9a1837'
@@ -176,7 +176,7 @@ describe('updateUserPassword', () => {
         expect(() => updateUserPassword(testUserId, password, 1, testNewPassword)).to.throw(TypeError, 'The new password is not a string.')
     })
 
-    it('fails on password length lower than 6 characters', () => expect(() => updateUserPassword('6102a3cbf245ef001c9a1837', '123123123', '123123123', '123',)).to.throw(RangeError, 'The new password confirm is lower than 6 characters.'))
+    it('fails on new password confirmation length lower than 6 characters', () => expect(() => updateUserPassword('6102a3cbf245ef001c9a1837', '123123123', '123123123', '123',)).to.throw(RangeError, 'The new password confirm is lower than 6 characters.'))
 
     it('fails on a non-string new password confirmation', () => {
         const testUserId = '6102a3cbf245ef001c9a1837'
